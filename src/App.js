@@ -1,98 +1,92 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
-import result from "./data";
-
-const Form = (props) => {
-  return (
-    <form>
-      <fieldset>
-        <legend>Search by breed</legend>
-        {props.data.map((prop) => (
-          <Select
-            value={prop.name}
-            checked={props.selected === prop.name}
-            onChange={props.onChange}
-            text={prop.name}
-            key={prop.id}
-          />
-        ))}
-      </fieldset>
-    </form>
-  );
-};
-
-const Select = (props) => {
-  return (
-    <div>
-      <label>
-        <input
-          type="radio"
-          name="breed"
-          value={props.value}
-          checked={props.checked}
-          onChange={props.onChange}
-          className="form-check-input"
-        />
-        {props.text}
-      </label>
-    </div>
-  );
-};
-
-const Gallery = (props) => {
-  return (
-    <div className="gallery">
-      {props.data.map((prop) => (
-        <ImageCard
-          link={prop.image.url}
-          detail={prop.name}
-          key={prop.id}
-          text={prop.image.id}
-        />
-      ))}
-    </div>
-  );
-};
-
-const ImageCard = (props) => {
-  return (
-    <figure>
-      <img src={props.link} alt={props.detail} />
-      <figcaption>
-        <span>picture id:</span> {props.text}
-      </figcaption>
-    </figure>
-  );
-};
-
+import Form from "./components/Form";
+import Gallery from "./components/Gallery";
+import Button from "./components/Button";
 
 const App = () => {
-  const [selected, setSelected] = useState("");
-  const [data, setData] = useState(result);
+  const [selected, setSelected] = useState("1");
+  const [breedList, setBreedList] = useState();
+  const [images, setImages] = useState();
+  const [page, setPage] = useState(0);
+  const total_pages = useRef();
 
   const handleOptionChange = (event) => {
     setSelected(event.target.value);
   };
 
+  useEffect(() => {
+    const sendGetRequest = async () => {
+      const API_KEY = process.env.REACT_APP_API_KEY;
+      const pagination_limit = 15;
+      const url = `https://api.thedogapi.com/v1/breeds?page=${page}&limit=${pagination_limit}&order=Asc`;
+
+      let config = {
+        headers: {
+          "x-api-key": API_KEY,
+        },
+      };
+      try {
+        const response = await axios.get(url, config);
+        setBreedList(response.data);
+        const total_items = response.headers["pagination-count"];
+        total_pages.current = Math.floor(total_items / pagination_limit);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    sendGetRequest();
+  }, [page]);
 
   useEffect(() => {
-    const url = "https://api.thedogapi.com/v1/breeds?page=0&limit=15&order=Asc";
-    const API_KEY = process.env.REACT_APP_API_KEY;
-  }, []);
+    const sendGetRequest = async () => {
+      const API_KEY = process.env.REACT_APP_API_KEY;
+      const url = `https://api.thedogapi.com/v1/images/search?limit=10&breed_id=${selected}`;
 
+      let config = {
+        headers: {
+          "x-api-key": API_KEY,
+        },
+      };
 
-  return (
-    <div>
-      <h1>Search for pictures of good doggos</h1>
-      <p>Filter by breed for more choice!</p>
-      <div className="sidebar">
-        <Form data={data} selected={selected} onChange={handleOptionChange} />
-        <button>previous</button>
-        <button>next page</button>
+      try {
+        const response = await axios.get(url, config);
+        setImages(response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    sendGetRequest();
+  }, [selected]);
+
+  if (breedList) {
+    return (
+      <div>
+        <h1>Search for pictures of good doggos</h1>
+        <p>Filter by breed for more choice!</p>
+        <div className="sidebar">
+          <Form
+            data={breedList}
+            selected={selected}
+            onChange={handleOptionChange}
+          />
+          <Button
+            disabled={page <= 0}
+            onClick={() => setPage(page - 1)}
+            text="previous"
+          />
+          <Button
+            disabled={page >= total_pages.current}
+            onClick={() => setPage(page + 1)}
+            text="next page"
+          />
+        </div>
+        <Gallery data={images} />
       </div>
-      <Gallery data={data} />
-    </div>
-  );
+    );
+  } else {
+    return <p>Loading...</p>;
+  }
 };
 
 export default App;
