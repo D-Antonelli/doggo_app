@@ -1,6 +1,8 @@
+import "../styles/form.scss";
+
 const Form = (props) => {
   return (
-    <form>
+    <form className="form">
       <fieldset>
         <legend>Search by breed</legend>
         {props.data.map((prop) => (
@@ -19,7 +21,7 @@ const Form = (props) => {
 
 const Select = (props) => {
   return (
-    <div>
+    <div className="form__input">
       <label>
         <input
           type="radio"

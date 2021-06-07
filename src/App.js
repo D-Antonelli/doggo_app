@@ -3,6 +3,11 @@ import axios from "axios";
 import Form from "./components/Form";
 import Gallery from "./components/Gallery";
 import Button from "./components/Button";
+import "./App.scss";
+
+/*
+THERE NEEDS A PROPER EDGE-CASE HANDLING FOR MISSING DATA 
+**/
 
 const App = () => {
   const [selected, setSelected] = useState("1");
@@ -16,7 +21,7 @@ const App = () => {
   };
 
   useEffect(() => {
-    const sendGetRequest = async () => {
+    const getBreeds = async () => {
       const API_KEY = process.env.REACT_APP_API_KEY;
       const pagination_limit = 15;
       const url = `https://api.thedogapi.com/v1/breeds?page=${page}&limit=${pagination_limit}&order=Asc`;
@@ -35,11 +40,11 @@ const App = () => {
         console.log(error);
       }
     };
-    sendGetRequest();
+    getBreeds();
   }, [page]);
 
   useEffect(() => {
-    const sendGetRequest = async () => {
+    const getImages = async () => {
       const API_KEY = process.env.REACT_APP_API_KEY;
       const url = `https://api.thedogapi.com/v1/images/search?limit=10&breed_id=${selected}`;
 
@@ -56,32 +61,45 @@ const App = () => {
         console.log(error);
       }
     };
-    sendGetRequest();
+    getImages();
   }, [selected]);
 
   if (breedList) {
     return (
       <div>
-        <h1>Search for pictures of good doggos</h1>
-        <p>Filter by breed for more choice!</p>
-        <div className="sidebar">
-          <Form
-            data={breedList}
-            selected={selected}
-            onChange={handleOptionChange}
-          />
-          <Button
-            disabled={page <= 0}
-            onClick={() => setPage(page - 1)}
-            text="previous"
-          />
-          <Button
-            disabled={page >= total_pages.current}
-            onClick={() => setPage(page + 1)}
-            text="next page"
-          />
-        </div>
-        <Gallery data={images} />
+        <header>
+          <h1 className="title title__primary">
+            Search for pictures of good doggos
+          </h1>
+          <p className="title title__secondary">
+            Filter by breed for more choice!
+          </p>
+        </header>
+        <main className="main_page">
+          <div className="sidebar">
+            <button className="sidebar__dropdown-btn" hidden>
+              Search by breed<i className="arrow__down"></i>
+            </button>
+            <Form
+              data={breedList}
+              selected={selected}
+              onChange={handleOptionChange}
+            />
+            <Button
+              disabled={page <= 0}
+              onClick={() => setPage(page - 1)}
+              text="previous"
+            />
+            <Button
+              disabled={page >= total_pages.current}
+              onClick={() => setPage(page + 1)}
+              className="next__btn"
+              text="next page"
+            />
+          </div>
+          <div className="empty_flex"></div>
+          <Gallery data={images} />
+        </main>
       </div>
     );
   } else {

@@ -1,3 +1,5 @@
+import "../styles/gallery.scss";
+
 const Gallery = (props) => {
   if (props.data) {
     return (
@@ -13,7 +15,9 @@ const Gallery = (props) => {
       </div>
     );
   } else {
-    return <p>Images are loading...</p>;
+    return (
+      <p>Loading images...</p>
+    )
   }
 };
 
@@ -22,7 +26,7 @@ const ImageCard = (props) => {
     <figure>
       <img src={props.link} alt={props.detail} />
       <figcaption>
-        <span>picture id:</span> {props.text}
+        <span className="bold">picture id:</span> {props.text}
       </figcaption>
     </figure>
   );
