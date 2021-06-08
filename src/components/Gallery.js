@@ -1,10 +1,12 @@
-import "../styles/gallery.scss";
+import "../Styles/Gallery.scss";
 
 const Gallery = (props) => {
-  if (props.data) {
-    return (
-      <div className="gallery">
-        {props.data.map((prop) => (
+  return (
+    <div className="gallery">
+      {props.data &&
+        props.data[0] &&
+        Object.entries(props.data[0]).length > 0 &&
+        props.data.map((prop) => (
           <ImageCard
             link={prop.url}
             detail={prop.breeds.name}
@@ -12,13 +14,8 @@ const Gallery = (props) => {
             text={prop.id}
           />
         ))}
-      </div>
-    );
-  } else {
-    return (
-      <p>Loading images...</p>
-    )
-  }
+    </div>
+  );
 };
 
 const ImageCard = (props) => {
