@@ -7,8 +7,8 @@ export const CONFIG = {
 };
 export const pagination_limit = 15;
 export const URL = {
-  breeds: ({page}) =>
+  breeds: ({ page }) =>
     `${API_ROOT}breeds?page=${page}&limit=${pagination_limit}&order=Asc`,
-  images: ({id}) =>
+  images: ({ id }) =>
     `${API_ROOT}images/search?limit=${pagination_limit}&breed_id=${id}`,
 };
