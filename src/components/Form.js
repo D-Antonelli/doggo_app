@@ -1,19 +1,22 @@
-import "../styles/form.scss";
+import "../Styles/Form.scss";
 
 const Form = (props) => {
   return (
     <form className="form">
       <fieldset>
         <legend>Search by breed</legend>
-        {props.data.map((prop) => (
-          <Select
-            value={prop.id}
-            checked={props.selected === prop.id.toString()}
-            onChange={props.onChange}
-            text={prop.name}
-            key={prop.id}
-          />
-        ))}
+        {props.data &&
+          props.data[0] &&
+          Object.entries(props.data[0]).length > 0 &&
+          props.data.map((prop) => (
+            <Select
+              value={prop.id}
+              checked={props.selected === prop.id.toString()}
+              onChange={props.onChange}
+              text={prop.name}
+              key={prop.id}
+            />
+          ))}
       </fieldset>
     </form>
   );
