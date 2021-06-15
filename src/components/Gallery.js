@@ -9,21 +9,20 @@ const Gallery = (props) => {
         props.data.map((prop) => (
           <ImageCard
             link={prop.url}
-            detail={prop.breeds.name}
             key={prop.id}
-            text={prop.id}
+            id={prop.id}
           />
         ))}
     </div>
   );
 };
 
-const ImageCard = (props) => {
+const ImageCard = ({link, id}) => {
   return (
     <figure>
-      <img src={props.link} alt={props.detail} />
+      <img src={link} alt="dog breed" />
       <figcaption>
-        <span className="bold">picture id:</span> {props.text}
+        <span className="bold">Picture id: </span> {id}
       </figcaption>
     </figure>
   );
