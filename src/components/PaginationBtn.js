@@ -1,4 +1,4 @@
-import "../Styles/PaginationBtn.scss";
+import "../styles/PaginationBtn.scss";
 
 const PaginationBtn = (props) => {
   return (

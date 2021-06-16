@@ -1,4 +1,4 @@
-import "../Styles/Form.scss";
+import "../styles/Form.scss";
 
 const Form = (props) => {
   return (

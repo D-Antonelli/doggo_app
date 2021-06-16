@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
-import Form from "../Components/Form";
-import Gallery from "../Components/Gallery";
-import PaginationBtn from "../Components/PaginationBtn";
-import DropdownBtn from "../Components/DropdownBtn";
+import Form from "../components/Form";
+import Gallery from "../components/Gallery";
+import PaginationBtn from "../components/PaginationBtn";
+import DropdownBtn from "../components/DropdownBtn";
 import { CONFIG, URL, pagination_limit } from "../Request";
 
 const Main = () => {

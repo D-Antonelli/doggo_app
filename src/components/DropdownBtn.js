@@ -1,4 +1,4 @@
-import "../Styles/DropdownBtn.scss";
+import "../styles/DropdownBtn.scss";
 
 const DropdownBtn = (props) => {
   return (

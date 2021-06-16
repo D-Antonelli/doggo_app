@@ -1,4 +1,4 @@
-import "../Styles/Gallery.scss";
+import "../styles/Gallery.scss";
 
 const Gallery = (props) => {
   return (

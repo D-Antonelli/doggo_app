@@ -1,6 +1,6 @@
-import Header from "../Layout/Header";
-import Main from "../Layout/Main";
-import "../Styles/App.scss";
+import Header from "../layout/Header";
+import Main from "../layout/Main";
+import "../styles/App.scss";
 
 const App = () => {
   return (
