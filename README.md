@@ -1,7 +1,8 @@
 # DOGGO APP 🐶
-Who doesn't love dogs? I created this app to allow users to page through a list of dog breeds to allow them to see different group of pictures in their selected breed.
+Who doesn't love dogs? This app is created for dog enthusiasts to allow them to page through a list of dog breeds and find images of their favorite category.
 
 # GIF
+![screen gif](src/assets/gif.gif)
 
 # TECH STACK
 - React (Hooks)
@@ -9,4 +10,4 @@ Who doesn't love dogs? I created this app to allow users to page through a list 
 - Jest
 
 # LIVE
-
+[Link](https://doggo-doggie.netlify.app/)
